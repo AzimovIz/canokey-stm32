@@ -23,6 +23,14 @@ jobs:
         cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain.cmake  -DCROSS_COMPILE=/opt/gcc-arm-none-eabi-5_4-2016q3/bin/arm-none-eabi- -DCMAKE_BUILD_TYPE=Release -DENABLE_DEBUG_OUTPUT=OFF ..
         make -j2 canokey.bin
         popd
+        
+    - name: Upload Release Assets 0
+      uses: actions/upload-release-asset@v1
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: build/canokey.bin
+          asset_name: canokey.bin
+          asset_content_type: application/octet-stream
 
     - name: Create a Release
       id: create_release
